@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TKeyTechnUuidMapper">
+    
+    <resultMap type="TKeyTechnUuid" id="TKeyTechnResult">
+        <result property="id"    column="id"    />
+        <result property="keyTechnId"    column="key_techn_id"    />
+        <result property="sourceName"    column="source_name"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="sourceId"    column="source_id"    />
+        <result property="sourceFileUrl"    column="source_file_url"    />
+        <result property="sourceDownloadUrl"    column="source_download_url"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="softwareCopyId"    column="software_copy_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTKeyTechnVo">
+        SELECT id, key_techn_id, source_name, upload_name, source_id, source_file_url, source_download_url,
+        file_size, software_copy_id FROM t_key_techn_uuid
+    </sql>
+
+    <select id="selectTKeyTechnUuidById" parameterType="TKeyTechnUuid" resultMap="TKeyTechnResult">
+        <include refid="selectTKeyTechnVo"/>
+        <where>
+            <if test="projectDepart != null  and projectDepart != ''"> and project_depart = #{projectDepart}</if>
+            <if test="levels != null  and levels != ''"> and levels = #{levels}</if>
+            <if test="compeDepart != null  and compeDepart != ''"> and compe_depart = #{compeDepart}</if>
+            <if test="reportComp != null  and reportComp != ''"> and report_comp = #{reportComp}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="releaseDate != null "> and release_date = #{releaseDate}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="achieName != null  and achieName != ''"> and achie_name like concat('%', #{achieName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTKeyTechnUuidList" parameterType="Long" resultMap="TKeyTechnResult">
+        <include refid="selectTKeyTechnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTKeyTechnUuid" parameterType="TKeyTechnUuid" useGeneratedKeys="true" keyProperty="id">
+        insert into t_key_techn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="releaseDate != null">release_date,</if>
+            <if test="status != null">status,</if>
+            <if test="achieName != null">achie_name,</if>
+            <if test="keyWord != null">key_word,</if>
+            <if test="reportComp != null">report_comp,</if>
+            <if test="publicTime != null">public_time,</if>
+            <if test="propoTime != null">propo_time,</if>
+            <if test="totalInve != null">total_inve,</if>
+            <if test="projectDepart != null">project_depart,</if>
+            <if test="levels != null">levels,</if>
+            <if test="compeDepart != null">compe_depart,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="achieName != null">#{achieName},</if>
+            <if test="keyWord != null">#{keyWord},</if>
+            <if test="reportComp != null">#{reportComp},</if>
+            <if test="publicTime != null">#{publicTime},</if>
+            <if test="propoTime != null">#{propoTime},</if>
+            <if test="totalInve != null">#{totalInve},</if>
+            <if test="projectDepart != null">#{projectDepart},</if>
+            <if test="levels != null">#{levels},</if>
+            <if test="compeDepart != null">#{compeDepart},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTKeyTechnUuid" parameterType="TKeyTechnUuid">
+        update t_key_techn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="achieName != null">achie_name = #{achieName},</if>
+            <if test="keyWord != null">key_word = #{keyWord},</if>
+            <if test="reportComp != null">report_comp = #{reportComp},</if>
+            <if test="publicTime != null">public_time = #{publicTime},</if>
+            <if test="propoTime != null">propo_time = #{propoTime},</if>
+            <if test="totalInve != null">total_inve = #{totalInve},</if>
+            <if test="projectDepart != null">project_depart = #{projectDepart},</if>
+            <if test="levels != null">levels = #{levels},</if>
+            <if test="compeDepart != null">compe_depart = #{compeDepart},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTKeyTechnUuidById" parameterType="Long">
+        delete from t_key_techn where id = #{id}
+    </delete>
+
+    <delete id="deleteTKeyTechnUuidByIds" parameterType="String">
+        delete from t_key_techn where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

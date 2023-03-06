@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.acce.mapper.TProjectMaterialsMapper">
+    
+    <resultMap type="TProjectMaterials" id="TProjectMaterialsResult">
+        <result property="id"    column="id"    />
+        <result property="status"    column="status"    />
+        <result property="materialName"    column="material_name"    />
+        <result property="subjects"    column="subjects"    />
+        <result property="reportingCompany"    column="reporting_company"    />
+        <result property="projectLeader"    column="project_leader"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+    </resultMap>
+
+    <sql id="selectTProjectMaterialsVo">
+        select id, status, material_name, subjects, reporting_company, project_leader, create_by, create_time,
+        update_by, update_time, upload_name
+         from t_project_materials
+    </sql>
+
+    <select id="selectTProjectMaterialsList" parameterType="TProjectMaterials" resultMap="TProjectMaterialsResult">
+        <include refid="selectTProjectMaterialsVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="materialName != null  and materialName != ''"> and material_name like concat('%', #{materialName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTProjectMaterialsById" parameterType="Long" resultMap="TProjectMaterialsResult">
+        <include refid="selectTProjectMaterialsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTProjectMaterials" parameterType="TProjectMaterials" useGeneratedKeys="true" keyProperty="id">
+        insert into t_project_materials
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="status != null">status,</if>
+            <if test="materialName != null">material_name,</if>
+            <if test="subjects != null">subjects,</if>
+            <if test="reportingCompany != null">reporting_company,</if>
+            <if test="projectLeader != null">project_leader,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="status != null">#{status},</if>
+            <if test="materialName != null">#{materialName},</if>
+            <if test="subjects != null">#{subjects},</if>
+            <if test="reportingCompany != null">#{reportingCompany},</if>
+            <if test="projectLeader != null">#{projectLeader},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProjectMaterials" parameterType="TProjectMaterials">
+        update t_project_materials
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="materialName != null">material_name = #{materialName},</if>
+            <if test="subjects != null">subjects = #{subjects},</if>
+            <if test="reportingCompany != null">reporting_company = #{reportingCompany},</if>
+            <if test="projectLeader != null">project_leader = #{projectLeader},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTProjectMaterialsById" parameterType="Long">
+        delete from t_project_materials where id = #{id}
+    </delete>
+
+    <delete id="deleteTProjectMaterialsByIds" parameterType="String">
+        delete from t_project_materials where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

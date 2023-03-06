@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TPatentMapper">
+    
+    <resultMap type="TPatent" id="TPatentResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="patentName"    column="patent_name"    />
+        <result property="patentee"    column="patentee"    />
+        <result property="patentInventor"    column="patent_inventor"    />
+        <result property="authorization"    column="authorization"    />
+        <result property="authorizedDate"    column="authorized_date"    />
+        <result property="subject"    column="subject"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="status"    column="status"    />
+        <result property="statusReason"    column="status_reason"    />
+    </resultMap>
+
+    <sql id="selectTPatentVo">
+        select id, number, patent_name, patentee, patent_inventor, authorization, authorized_date, subject,
+         create_by, create_time, update_by, update_time, upload_name, status, status_reason
+          from t_patent
+    </sql>
+
+    <select id="selectTPatentList" parameterType="TPatent" resultMap="TPatentResult">
+        <include refid="selectTPatentVo"/>
+        <where>
+            <if test="patentee != null  and patentee != ''"> and patentee = #{patentee}</if>
+            <if test="patentInventor != null  and patentInventor != ''"> and patent_inventor = #{patentInventor}</if>
+            <if test="authorization != null  and authorization != ''"> and authorization = #{authorization}</if>
+            <if test="authorizedDate != null "> and authorized_date = #{authorizedDate}</if>
+            <if test="patentName != null  and patentName != ''"> and patent_name like concat('%', #{patentName}, '%')</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(authorized_date) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTPatentById" parameterType="Long" resultMap="TPatentResult">
+        <include refid="selectTPatentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTPatent" parameterType="TPatent" useGeneratedKeys="true" keyProperty="id">
+        insert into t_patent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
+            <if test="patentName != null">patent_name,</if>
+            <if test="patentee != null">patentee,</if>
+            <if test="patentInventor != null">patent_inventor,</if>
+            <if test="authorization != null">authorization,</if>
+            <if test="authorizedDate != null">authorized_date,</if>
+            <if test="subject != null">subject,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="statusReason != null">status_reason,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
+            <if test="patentName != null">#{patentName},</if>
+            <if test="patentee != null">#{patentee},</if>
+            <if test="patentInventor != null">#{patentInventor},</if>
+            <if test="authorization != null">#{authorization},</if>
+            <if test="authorizedDate != null">#{authorizedDate},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="statusReason != null">#{statusReason},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPatent" parameterType="TPatent">
+        update t_patent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
+            <if test="patentName != null">patent_name = #{patentName},</if>
+            <if test="patentee != null">patentee = #{patentee},</if>
+            <if test="patentInventor != null">patent_inventor = #{patentInventor},</if>
+            <if test="authorization != null">authorization = #{authorization},</if>
+            <if test="authorizedDate != null">authorized_date = #{authorizedDate},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTPatentById" parameterType="Long">
+        delete from t_patent where id = #{id}
+    </delete>
+
+    <delete id="deleteTPatentByIds" parameterType="String">
+        delete from t_patent where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

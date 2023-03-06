@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TKeyTechnMapper">
+    
+    <resultMap type="TKeyTechn" id="TKeyTechnResult">
+        <result property="id"    column="id"    />
+        <result property="releaseDate"    column="release_date"    />
+        <result property="status"    column="status"    />
+        <result property="achieName"    column="achie_name"    />
+        <result property="keyWord"    column="key_word"    />
+        <result property="reportComp"    column="report_comp"    />
+        <result property="publicTime"    column="public_time"    />
+        <result property="propoTime"    column="propo_time"    />
+        <result property="totalInve"    column="total_inve"    />
+        <result property="projectDepart"    column="project_depart"    />
+        <result property="levels"    column="levels"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="statusReason"    column="status_reason"    />
+        <result property="subjects"    column="subjects"    />
+    </resultMap>
+
+    <sql id="selectTKeyTechnVo">
+        select id, release_date, status, achie_name, key_word, report_comp, public_time, propo_time, total_inve, project_depart,
+         levels, create_by, create_time, update_by, update_time, upload_name, status_reason, subjects
+         from t_key_techn
+    </sql>
+
+    <select id="selectTKeyTechnList" parameterType="TKeyTechn" resultMap="TKeyTechnResult">
+        <include refid="selectTKeyTechnVo"/>
+        <where>
+            <if test="projectDepart != null  and projectDepart != ''"> and project_depart = #{projectDepart}</if>
+            <if test="levels != null  and levels != ''"> and levels = #{levels}</if>
+            <if test="reportComp != null  and reportComp != ''"> and report_comp = #{reportComp}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="publicTime != null "> and public_time = #{publicTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="achieName != null  and achieName != ''"> and achie_name like concat('%', #{achieName}, '%')</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="keyWord != null  and keyWord != ''"> and key_word like concat('%', #{keyWord}, '%')</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(public_time) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTKeyTechnById" parameterType="Long" resultMap="TKeyTechnResult">
+        <include refid="selectTKeyTechnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTKeyTechn" parameterType="TKeyTechn" useGeneratedKeys="true" keyProperty="id">
+        insert into t_key_techn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="releaseDate != null">release_date,</if>
+            <if test="status != null">status,</if>
+            <if test="achieName != null">achie_name,</if>
+            <if test="keyWord != null">key_word,</if>
+            <if test="reportComp != null">report_comp,</if>
+            <if test="publicTime != null">public_time,</if>
+            <if test="propoTime != null">propo_time,</if>
+            <if test="totalInve != null">total_inve,</if>
+            <if test="projectDepart != null">project_depart,</if>
+            <if test="levels != null">levels,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="statusReason != null">status_reason,</if>
+            <if test="subjects != null">subjects,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="achieName != null">#{achieName},</if>
+            <if test="keyWord != null">#{keyWord},</if>
+            <if test="reportComp != null">#{reportComp},</if>
+            <if test="publicTime != null">#{publicTime},</if>
+            <if test="propoTime != null">#{propoTime},</if>
+            <if test="totalInve != null">#{totalInve},</if>
+            <if test="projectDepart != null">#{projectDepart},</if>
+            <if test="levels != null">#{levels},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="statusReason != null">#{statusReason},</if>
+            <if test="subjects != null">#{subjects},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTKeyTechn" parameterType="TKeyTechn">
+        update t_key_techn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="achieName != null">achie_name = #{achieName},</if>
+            <if test="keyWord != null">key_word = #{keyWord},</if>
+            <if test="reportComp != null">report_comp = #{reportComp},</if>
+            <if test="publicTime != null">public_time = #{publicTime},</if>
+            <if test="propoTime != null">propo_time = #{propoTime},</if>
+            <if test="totalInve != null">total_inve = #{totalInve},</if>
+            <if test="projectDepart != null">project_depart = #{projectDepart},</if>
+            <if test="levels != null">levels = #{levels},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="subjects != null">subjects = #{subjects},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTKeyTechnById" parameterType="Long">
+        delete from t_key_techn where id = #{id}
+    </delete>
+
+    <delete id="deleteTKeyTechnByIds" parameterType="String">
+        delete from t_key_techn where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

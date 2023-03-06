@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TGuideSpecMapper">
+    
+    <resultMap type="TGuideSpec" id="TGuideSpecResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="preparedUnit"    column="prepared_unit"    />
+        <result property="name"    column="name"    />
+        <result property="contentValidity"    column="content_validity"    />
+        <result property="scopeApplication"    column="scope_application"    />
+        <result property="status"    column="status"    />
+        <result property="technicalType"    column="technical_type"    />
+        <result property="issuedBy"    column="Issued_by"    />
+        <result property="preparedBy"    column="prepared_by"    />
+        <result property="subjects"    column="subjects"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="statusReason"    column="status_reason"    />
+    </resultMap>
+
+    <sql id="selectTGuideSpecVo">
+        select id, number, prepared_unit, name, content_validity, scope_application, status, technical_type, Issued_by,
+        prepared_by, subjects, create_by, create_time, update_by, update_time, remarks, upload_name, status_reason
+         from t_guide_spec
+    </sql>
+
+    <select id="selectTGuideSpecList" parameterType="TGuideSpec" resultMap="TGuideSpecResult">
+        <include refid="selectTGuideSpecVo"/>
+        <where>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="technicalType != null  and technicalType != ''"> and technical_type = #{technicalType}</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="issuedBy != null  and issuedBy != ''"> and Issued_by = #{issuedBy}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="number != null  and number != ''"> and number like concat('%', #{number}, '%')</if>
+            <if test="preparedUnit != null  and preparedUnit != ''"> and prepared_unit like concat('%', #{preparedUnit}, '%')</if>
+            <if test="contentValidity != null  and contentValidity != ''"> and content_validity = #{contentValidity}</if>
+            <if test="scopeApplication != null  and scopeApplication != ''"> and scope_application = #{scopeApplication}</if>
+            <if test="preparedBy != null  and preparedBy != ''"> and prepared_by = #{preparedBy}</if>
+
+        </where>
+    </select>
+    
+    <select id="selectTGuideSpecById" parameterType="Long" resultMap="TGuideSpecResult">
+        <include refid="selectTGuideSpecVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTGuideSpec" parameterType="TGuideSpec" useGeneratedKeys="true" keyProperty="id">
+        insert into t_guide_spec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
+            <if test="preparedUnit != null">prepared_unit,</if>
+            <if test="name != null">name,</if>
+            <if test="contentValidity != null">content_validity,</if>
+            <if test="scopeApplication != null">scope_application,</if>
+            <if test="status != null">status,</if>
+            <if test="technicalType != null">technical_type,</if>
+            <if test="issuedBy != null">Issued_by,</if>
+            <if test="preparedBy != null">prepared_by,</if>
+            <if test="subjects != null">subjects,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="statusReason != null">status_reason,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
+            <if test="preparedUnit != null">#{preparedUnit},</if>
+            <if test="name != null">#{name},</if>
+            <if test="contentValidity != null">#{contentValidity},</if>
+            <if test="scopeApplication != null">#{scopeApplication},</if>
+            <if test="status != null">#{status},</if>
+            <if test="technicalType != null">#{technicalType},</if>
+            <if test="issuedBy != null">#{issuedBy},</if>
+            <if test="preparedBy != null">#{preparedBy},</if>
+            <if test="subjects != null">#{subjects},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="statusReason != null">#{statusReason},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTGuideSpec" parameterType="TGuideSpec">
+        update t_guide_spec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
+            <if test="preparedUnit != null">prepared_unit = #{preparedUnit},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="contentValidity != null">content_validity = #{contentValidity},</if>
+            <if test="scopeApplication != null">scope_application = #{scopeApplication},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="technicalType != null">technical_type = #{technicalType},</if>
+            <if test="issuedBy != null">Issued_by = #{issuedBy},</if>
+            <if test="preparedBy != null">prepared_by = #{preparedBy},</if>
+            <if test="subjects != null">subjects = #{subjects},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTGuideSpecById" parameterType="Long">
+        delete from t_guide_spec where id = #{id}
+    </delete>
+
+    <delete id="deleteTGuideSpecByIds" parameterType="String">
+        delete from t_guide_spec where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

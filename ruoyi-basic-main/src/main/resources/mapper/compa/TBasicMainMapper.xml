@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.basic.mapper.TBasicMainMapper">
+    
+    <resultMap type="TBasicMain" id="TBasicMainResult">
+        <result property="id"    column="id"    />
+        <result property="corporateName"    column="corporate_name"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+
+    <sql id="selectTBasicMainVo">
+        select id, corporate_name, remarks from t_basic_main
+    </sql>
+
+    <select id="selectTBasicMainList" parameterType="TBasicMain" resultMap="TBasicMainResult">
+        <include refid="selectTBasicMainVo"/>
+        <where>  
+            <if test="corporateName != null  and corporateName != ''"> and corporate_name like concat('%', #{corporateName}, '%')</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+        </where>
+    </select>
+    
+    <select id="selectTBasicMainById" parameterType="Long" resultMap="TBasicMainResult">
+        <include refid="selectTBasicMainVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTBasicMain" parameterType="TBasicMain" useGeneratedKeys="true" keyProperty="id">
+        insert into t_basic_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="corporateName != null">corporate_name,</if>
+            <if test="remarks != null">remarks,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="corporateName != null">#{corporateName},</if>
+            <if test="remarks != null">#{remarks},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTBasicMain" parameterType="TBasicMain">
+        update t_basic_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="corporateName != null">corporate_name = #{corporateName},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTBasicMainById" parameterType="Long">
+        delete from t_basic_main where id = #{id}
+    </delete>
+
+    <delete id="deleteTBasicMainByIds" parameterType="String">
+        delete from t_basic_main where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

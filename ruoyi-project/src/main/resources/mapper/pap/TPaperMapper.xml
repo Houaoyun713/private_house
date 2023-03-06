@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TPaperMapper">
+    
+    <resultMap type="TPaper" id="TPaperResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="type"    column="type"    />
+        <result property="paperName"    column="paper_name"    />
+        <result property="authorUnit"    column="author_unit"    />
+        <result property="journalName"    column="Journal_name"    />
+        <result property="press"    column="press"    />
+        <result property="dateOfPublic"    column="date_of_public"    />
+        <result property="issue"    column="issue"    />
+        <result property="influenceFactor"    column="Influence_factor"    />
+        <result property="subjects"    column="subjects"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="status"    column="status"    />
+        <result property="statusReason"    column="status_reason"    />
+    </resultMap>
+
+    <sql id="selectTPaperVo">
+        select id, number, type, paper_name, author_unit, Journal_name, press, date_of_public, issue, Influence_factor,
+        subjects, create_by, create_time, update_by, update_time, upload_name, status, status_reason
+         from t_paper
+    </sql>
+
+    <select id="selectTPaperList" parameterType="TPaper" resultMap="TPaperResult">
+        <include refid="selectTPaperVo"/>
+        <where>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="authorUnit != null  and authorUnit != ''"> and author_unit = #{authorUnit}</if>
+            <if test="journalName != null  and journalName != ''"> and Journal_name like concat('%', #{journalName}, '%')</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="dateOfPublic != null "> and date_of_public like concat(#{dateOfPublic}, '%')</if>
+            <if test="paperName != null  and paperName != ''"> and paper_name like concat('%', #{paperName}, '%')</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(date_of_public) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTPaperById" parameterType="Long" resultMap="TPaperResult">
+        <include refid="selectTPaperVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTPaper" parameterType="TPaper" useGeneratedKeys="true" keyProperty="id">
+        insert into t_paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
+            <if test="type != null">type,</if>
+            <if test="paperName != null">paper_name,</if>
+            <if test="authorUnit != null">author_unit,</if>
+            <if test="journalName != null">Journal_name,</if>
+            <if test="press != null">press,</if>
+            <if test="dateOfPublic != null">date_of_public,</if>
+            <if test="issue != null">issue,</if>
+            <if test="influenceFactor != null">Influence_factor,</if>
+            <if test="subjects != null">subjects,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="statusReason != null">status_reason,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
+            <if test="type != null">#{type},</if>
+            <if test="paperName != null">#{paperName},</if>
+            <if test="authorUnit != null">#{authorUnit},</if>
+            <if test="journalName != null">#{journalName},</if>
+            <if test="press != null">#{press},</if>
+            <if test="dateOfPublic != null">#{dateOfPublic},</if>
+            <if test="issue != null">#{issue},</if>
+            <if test="influenceFactor != null">#{influenceFactor},</if>
+            <if test="subjects != null">#{subjects},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="statusReason != null">#{statusReason},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPaper" parameterType="TPaper">
+        update t_paper
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="paperName != null">paper_name = #{paperName},</if>
+            <if test="authorUnit != null">author_unit = #{authorUnit},</if>
+            <if test="journalName != null">Journal_name = #{journalName},</if>
+            <if test="press != null">press = #{press},</if>
+            <if test="dateOfPublic != null">date_of_public = #{dateOfPublic},</if>
+            <if test="issue != null">issue = #{issue},</if>
+            <if test="influenceFactor != null">Influence_factor = #{influenceFactor},</if>
+            <if test="subjects != null">subjects = #{subjects},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTPaperById" parameterType="Long">
+        delete from t_paper where id = #{id}
+    </delete>
+
+    <delete id="deleteTPaperByIds" parameterType="String">
+        delete from t_paper where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

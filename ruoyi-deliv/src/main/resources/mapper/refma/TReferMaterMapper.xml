@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.annrel.mapper.TReferMaterMapper">
+    
+    <resultMap type="TReferMater" id="TReferMaterResult">
+        <result property="id"    column="id"    />
+        <result property="referMater"    column="refer_mater"    />
+        <result property="fileDesc"    column="file_desc"    />
+        <result property="uploaderName"    column="uploader_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="uploadTime"    column="upload_time"    />
+    </resultMap>
+
+    <sql id="selectTReferMaterVo">
+        select id, refer_mater, file_desc, uploader_name, create_by, create_time, update_by, update_time,
+        upload_name, upload_time
+        from t_refer_mater
+    </sql>
+
+    <select id="selectTReferMaterList" parameterType="TReferMater" resultMap="TReferMaterResult">
+        <include refid="selectTReferMaterVo"/>
+        <where>  
+            <if test="referMater != null  and referMater != ''"> and refer_mater like concat('%', #{referMater}, '%')</if>
+            <if test="fileDesc != null  and fileDesc != ''"> and file_desc = #{fileDesc}</if>
+            <if test="uploadTime != null "> and upload_time like concat('%', #{uploadTime}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and create_by like concat('%', #{createBy}, '%')</if>
+            <if test="uploaderName != null  and uploaderName != ''"> and uploader_name like concat('%', #{uploaderName}, '%')</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(upload_time) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTReferMaterById" parameterType="Long" resultMap="TReferMaterResult">
+        <include refid="selectTReferMaterVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTReferMater" parameterType="TReferMater" useGeneratedKeys="true" keyProperty="id">
+        insert into t_refer_mater
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="referMater != null">refer_mater,</if>
+            <if test="fileDesc != null">file_desc,</if>
+            <if test="uploaderName != null">uploader_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="uploadTime != null">upload_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="referMater != null">#{referMater},</if>
+            <if test="fileDesc != null">#{fileDesc},</if>
+            <if test="uploaderName != null">#{uploaderName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="uploadTime != null">#{uploadTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTReferMater" parameterType="TReferMater">
+        update t_refer_mater
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="referMater != null">refer_mater = #{referMater},</if>
+            <if test="fileDesc != null">file_desc = #{fileDesc},</if>
+            <if test="uploaderName != null">uploader_name = #{uploaderName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="uploadTime != null">upload_time = #{uploadTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTReferMaterById" parameterType="Long">
+        delete from t_refer_mater where id = #{id}
+    </delete>
+
+    <delete id="deleteTReferMaterByIds" parameterType="String">
+        delete from t_refer_mater where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

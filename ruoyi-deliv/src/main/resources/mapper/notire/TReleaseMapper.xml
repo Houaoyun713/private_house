@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.annrel.mapper.TReleaseMapper">
+    
+    <resultMap type="TRelease" id="TReleaseResult">
+        <result property="id"    column="id"    />
+        <result property="notiTitle"    column="noti_title"    />
+        <result property="notiType"    column="noti_type"    />
+        <result property="notiReleaseDate"    column="noti_release_date"    />
+        <result property="notiDesc"    column="noti_desc"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+    </resultMap>
+
+    <sql id="selectTReleaseVo">
+        select id, noti_title, noti_type, noti_release_date, noti_desc, create_by, create_time, update_by,
+        update_time, upload_name from t_release
+    </sql>
+
+    <select id="selectTReleaseList" parameterType="TRelease" resultMap="TReleaseResult">
+        <include refid="selectTReleaseVo"/>
+        <where>  
+            <if test="notiTitle != null  and notiTitle != ''"> and noti_title like concat('%', #{notiTitle}, '%')</if>
+            <if test="notiType != null  and notiType != ''"> and noti_type = #{notiType}</if>
+            <if test="notiReleaseDate != null "> and noti_release_date = #{notiReleaseDate}</if>
+            <if test="notiDesc != null  and notiDesc != ''"> and noti_desc = #{notiDesc}</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(noti_release_date) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTReleaseById" parameterType="Long" resultMap="TReleaseResult">
+        <include refid="selectTReleaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTRelease" parameterType="TRelease" useGeneratedKeys="true" keyProperty="id">
+        insert into t_release
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="notiTitle != null">noti_title,</if>
+            <if test="notiType != null">noti_type,</if>
+            <if test="notiReleaseDate != null">noti_release_date,</if>
+            <if test="notiDesc != null">noti_desc,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="notiTitle != null">#{notiTitle},</if>
+            <if test="notiType != null">#{notiType},</if>
+            <if test="notiReleaseDate != null">#{notiReleaseDate},</if>
+            <if test="notiDesc != null">#{notiDesc},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTRelease" parameterType="TRelease">
+        update t_release
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="notiTitle != null">noti_title = #{notiTitle},</if>
+            <if test="notiType != null">noti_type = #{notiType},</if>
+            <if test="notiReleaseDate != null">noti_release_date = #{notiReleaseDate},</if>
+            <if test="notiDesc != null">noti_desc = #{notiDesc},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTReleaseById" parameterType="Long">
+        delete from t_release where id = #{id}
+    </delete>
+
+    <delete id="deleteTReleaseByIds" parameterType="String">
+        delete from t_release where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

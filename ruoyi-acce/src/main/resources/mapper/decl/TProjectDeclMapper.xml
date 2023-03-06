@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.acce.mapper.TProjectDeclMapper">
+    
+    <resultMap type="TProjectDecl" id="TProjectDeclResult">
+        <result property="id"    column="id"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="preparedBy"    column="Prepared_by"    />
+        <result property="documentTitle"    column="document_title"    />
+        <result property="documentNo"    column="document_no"    />
+        <result property="dateOfIssue"    column="date_of_issue"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+    </resultMap>
+
+    <sql id="selectTProjectDeclVo">
+        select id, file_type, Prepared_by, document_title, document_no, date_of_issue, remarks, create_by, create_time,
+         update_by, update_time, upload_name
+          from t_project_decl
+    </sql>
+
+    <select id="selectTProjectDeclList" parameterType="TProjectDecl" resultMap="TProjectDeclResult">
+        <include refid="selectTProjectDeclVo"/>
+        <where>  
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="documentTitle != null  and documentTitle != ''"> and document_title = #{documentTitle}</if>
+            <if test="dateOfIssue != null "> and date_of_issue = #{dateOfIssue}</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(date_of_issue) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTProjectDeclById" parameterType="Long" resultMap="TProjectDeclResult">
+        <include refid="selectTProjectDeclVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTProjectDecl" parameterType="TProjectDecl" useGeneratedKeys="true" keyProperty="id">
+        insert into t_project_decl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileType != null">file_type,</if>
+            <if test="preparedBy != null">Prepared_by,</if>
+            <if test="documentTitle != null and documentTitle != ''">document_title,</if>
+            <if test="documentNo != null">document_no,</if>
+            <if test="dateOfIssue != null">date_of_issue,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileType != null">#{fileType},</if>
+            <if test="preparedBy != null">#{preparedBy},</if>
+            <if test="documentTitle != null and documentTitle != ''">#{documentTitle},</if>
+            <if test="documentNo != null">#{documentNo},</if>
+            <if test="dateOfIssue != null">#{dateOfIssue},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProjectDecl" parameterType="TProjectDecl">
+        update t_project_decl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="preparedBy != null">Prepared_by = #{preparedBy},</if>
+            <if test="documentTitle != null and documentTitle != ''">document_title = #{documentTitle},</if>
+            <if test="documentNo != null">document_no = #{documentNo},</if>
+            <if test="dateOfIssue != null">date_of_issue = #{dateOfIssue},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTProjectDeclById" parameterType="Long">
+        delete from t_project_decl where id = #{id}
+    </delete>
+
+    <delete id="deleteTProjectDeclByIds" parameterType="String">
+        delete from t_project_decl where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

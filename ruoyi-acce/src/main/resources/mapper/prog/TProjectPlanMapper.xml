@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.acce.mapper.TProjectPlanMapper">
+    
+    <resultMap type="TProjectPlan" id="TProjectPlanResult">
+        <result property="id"    column="id"    />
+        <result property="reportType"    column="report_type"    />
+        <result property="corporateName"    column="corporate_name"    />
+        <result property="reportNo"    column="report_no"    />
+        <result property="reportDate"    column="report_date"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+    </resultMap>
+
+    <sql id="selectTProjectPlanVo">
+        select id, report_type, corporate_name, report_no, report_date, remarks, create_by, create_time,
+         update_by, update_time, upload_name
+          from t_project_plan
+    </sql>
+
+    <select id="selectTProjectPlanList" parameterType="TProjectPlan" resultMap="TProjectPlanResult">
+        <include refid="selectTProjectPlanVo"/>
+        <where>  
+            <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
+            <if test="corporateName != null  and corporateName != ''"> and corporate_name like concat('%', #{corporateName}, '%')</if>
+            <if test="reportDate != null "> and report_date = #{reportDate}</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(report_date) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTProjectPlanById" parameterType="Long" resultMap="TProjectPlanResult">
+        <include refid="selectTProjectPlanVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTProjectPlan" parameterType="TProjectPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into t_project_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reportType != null">report_type,</if>
+            <if test="corporateName != null">corporate_name,</if>
+            <if test="reportNo != null">report_no,</if>
+            <if test="reportDate != null">report_date,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reportType != null">#{reportType},</if>
+            <if test="corporateName != null">#{corporateName},</if>
+            <if test="reportNo != null">#{reportNo},</if>
+            <if test="reportDate != null">#{reportDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProjectPlan" parameterType="TProjectPlan">
+        update t_project_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reportType != null">report_type = #{reportType},</if>
+            <if test="corporateName != null">corporate_name = #{corporateName},</if>
+            <if test="reportNo != null">report_no = #{reportNo},</if>
+            <if test="reportDate != null">report_date = #{reportDate},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTProjectPlanById" parameterType="Long">
+        delete from t_project_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteTProjectPlanByIds" parameterType="String">
+        delete from t_project_plan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

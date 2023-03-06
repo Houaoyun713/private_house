@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.acce.mapper.TResearchReportMapper">
+    
+    <resultMap type="TResearchReport" id="TResearchReportResult">
+        <result property="id"    column="id"    />
+        <result property="times"    column="times"    />
+        <result property="reportName"    column="report_name"    />
+        <result property="reportContent"    column="report_content"    />
+        <result property="reportLeader"    column="report_leader"    />
+        <result property="subjects"    column="subjects"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+    </resultMap>
+
+    <sql id="selectTResearchReportVo">
+        select id, times, report_name, report_content, report_leader, subjects, create_by, create_time, update_by,
+        update_time, upload_name, status
+         from t_research_report
+    </sql>
+
+    <select id="selectTResearchReportList" parameterType="TResearchReport" resultMap="TResearchReportResult">
+        <include refid="selectTResearchReportVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="reportName != null  and reportName != ''"> and report_name like concat('%', #{reportName}, '%')</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTResearchReportById" parameterType="Long" resultMap="TResearchReportResult">
+        <include refid="selectTResearchReportVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTResearchReport" parameterType="TResearchReport" useGeneratedKeys="true" keyProperty="id">
+        insert into t_research_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="times != null">times,</if>
+            <if test="reportName != null">report_name,</if>
+            <if test="reportContent != null">report_content,</if>
+            <if test="reportLeader != null">report_leader,</if>
+            <if test="subjects != null">subjects,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="times != null">#{times},</if>
+            <if test="reportName != null">#{reportName},</if>
+            <if test="reportContent != null">#{reportContent},</if>
+            <if test="reportLeader != null">#{reportLeader},</if>
+            <if test="subjects != null">#{subjects},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTResearchReport" parameterType="TResearchReport">
+        update t_research_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="times != null">times = #{times},</if>
+            <if test="reportName != null">report_name = #{reportName},</if>
+            <if test="reportContent != null">report_content = #{reportContent},</if>
+            <if test="reportLeader != null">report_leader = #{reportLeader},</if>
+            <if test="subjects != null">subjects = #{subjects},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTResearchReportById" parameterType="Long">
+        delete from t_research_report where id = #{id}
+    </delete>
+
+    <delete id="deleteTResearchReportByIds" parameterType="String">
+        delete from t_research_report where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

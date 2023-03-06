@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.projec.mapper.TSoftwareCopyMapper">
+    
+    <resultMap type="TSoftwareCopy" id="TSoftwareCopyResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="copyrightOwner"    column="copyright_owner"    />
+        <result property="softwareName"    column="software_name"    />
+        <result property="author"    column="author"    />
+        <result property="authorUnit"    column="author_unit"    />
+        <result property="completionDate"    column="completion_date"    />
+        <result property="dateOfPub"    column="date_of_pub"    />
+        <result property="rightMethod"    column="right_method"    />
+        <result property="registrationNo"    column="registration_no"    />
+        <result property="certificateNo"    column="certificate_no"    />
+        <result property="numberOfSoftware"    column="number_of_software"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="uploadName"    column="upload_name"    />
+        <result property="statusReason"    column="status_reason"    />
+    </resultMap>
+
+    <sql id="selectTSoftwareCopyVo">
+        select id, number, copyright_owner, software_name, author, author_unit, completion_date, date_of_pub,
+         right_method, registration_no, certificate_no, number_of_software, create_by, create_time, update_by, update_time,
+         upload_name, status_reason
+          from t_software_copy
+    </sql>
+
+    <select id="selectTSoftwareCopyList" parameterType="TSoftwareCopy" resultMap="TSoftwareCopyResult">
+        <include refid="selectTSoftwareCopyVo"/>
+        <where>
+            <if test="copyrightOwner != null  and copyrightOwner != ''"> and copyright_owner like concat('%', #{copyrightOwner}, '%')</if>
+            <if test="authorUnit != null  and authorUnit != ''"> and author_unit like concat('%', #{authorUnit}, '%')</if>
+            <if test="dateOfPub != null "> and date_of_pub like concat(#{dateOfPub}, '%')</if>
+            <if test="registrationNo != null  and registrationNo != ''"> and registration_no = #{registrationNo}</if>
+            <if test="strDate != null and strDate != '' and endDate != null and endDate != ''">
+                and date(date_of_pub) BETWEEN date(#{strDate}) AND date(#{endDate})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectTSoftwareCopyById" parameterType="Long" resultMap="TSoftwareCopyResult">
+        <include refid="selectTSoftwareCopyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTSoftwareCopy" parameterType="TSoftwareCopy" useGeneratedKeys="true" keyProperty="id">
+        insert into t_software_copy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
+            <if test="copyrightOwner != null">copyright_owner,</if>
+            <if test="softwareName != null">software_name,</if>
+            <if test="author != null">author,</if>
+            <if test="authorUnit != null">author_unit,</if>
+            <if test="completionDate != null">completion_date,</if>
+            <if test="dateOfPub != null">date_of_pub,</if>
+            <if test="rightMethod != null">right_method,</if>
+            <if test="registrationNo != null">registration_no,</if>
+            <if test="certificateNo != null">certificate_no,</if>
+            <if test="numberOfSoftware != null">number_of_software,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="uploadName != null">upload_name,</if>
+            <if test="statusReason != null">status_reason,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
+            <if test="copyrightOwner != null">#{copyrightOwner},</if>
+            <if test="softwareName != null">#{softwareName},</if>
+            <if test="author != null">#{author},</if>
+            <if test="authorUnit != null">#{authorUnit},</if>
+            <if test="completionDate != null">#{completionDate},</if>
+            <if test="dateOfPub != null">#{dateOfPub},</if>
+            <if test="rightMethod != null">#{rightMethod},</if>
+            <if test="registrationNo != null">#{registrationNo},</if>
+            <if test="certificateNo != null">#{certificateNo},</if>
+            <if test="numberOfSoftware != null">#{numberOfSoftware},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="uploadName != null">#{uploadName},</if>
+            <if test="statusReason != null">#{statusReason},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTSoftwareCopy" parameterType="TSoftwareCopy">
+        update t_software_copy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
+            <if test="copyrightOwner != null">copyright_owner = #{copyrightOwner},</if>
+            <if test="softwareName != null">software_name = #{softwareName},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="authorUnit != null">author_unit = #{authorUnit},</if>
+            <if test="completionDate != null">completion_date = #{completionDate},</if>
+            <if test="dateOfPub != null">date_of_pub = #{dateOfPub},</if>
+            <if test="rightMethod != null">right_method = #{rightMethod},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+            <if test="registrationNo != null">registration_no = #{registrationNo},</if>
+            <if test="certificateNo != null">certificate_no = #{certificateNo},</if>
+            <if test="numberOfSoftware != null">number_of_software = #{numberOfSoftware},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="uploadName != null">upload_name = #{uploadName},</if>
+            <if test="statusReason != null">status_reason = #{statusReason},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTSoftwareCopyById" parameterType="Long">
+        delete from t_software_copy where id = #{id}
+    </delete>
+
+    <delete id="deleteTSoftwareCopyByIds" parameterType="String">
+        delete from t_software_copy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
