@@ -102,4 +102,5 @@ public class TCompDepartController extends BaseController
     {
         return toAjax(tCompDepartService.deleteTCompDepartByIds(ids));
     }
+
 }
